@@ -26,6 +26,21 @@ jobs:
 
       - name: Build Project
         run: bun run build
+  
+      - name: Verify Build Output
+        run: |
+          if [ ! -d ".output/public" ]; then
+            echo "ERROR: Build output directory not found!"
+            echo "Contents of current directory:"
+            ls -la
+            if [ -d ".output" ]; then
+              echo "Contents of .output:"
+              ls -la .output
+            fi
+            exit 1
+          fi
+          echo "Build output verified successfully"
+          ls -la .output/public
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
